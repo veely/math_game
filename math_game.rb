@@ -1,3 +1,5 @@
+require './turn_manager.rb'
+
 class Player
 
   def initialize(name)
@@ -24,6 +26,7 @@ class Game
   def initialize()
     @player1 = Player.new('Player1')
     @player2 = Player.new('Player2')
+    @turn_manager = TurnManager.new(self.players)
   end
 
   def players
@@ -40,16 +43,7 @@ class Game
 
   def run
     while !game_over?
-      print "What is 2+2? "
-      answer = gets.chomp.to_i
-      if answer == 4
-        puts "good job"
-        puts summary
-      else
-        puts "wrong"
-        @player1.lose_life
-        puts summary
-      end
+      turn = @turn_manager.next_turn
     end
   end
 end
