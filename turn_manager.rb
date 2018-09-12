@@ -15,7 +15,7 @@ class TurnManager
 end
 
 class Turn
-  attr_reader :attacker, :defender
+  attr_reader :answerer
 
   def initialize(answerer)
     @answerer = answerer
