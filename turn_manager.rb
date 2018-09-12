@@ -5,19 +5,22 @@ class TurnManager
   end
 
   def next_turn
-    answerer = get_answerer
+    currentPlayer = get_currentPlayer
+    @players.rotate!
+    Turn.new(currentPlayer)
   end
 
-  def get_answerer
+  def get_currentPlayer
     @players.first
   end
 
 end
 
 class Turn
-  attr_reader :answerer
+  attr_reader :currentPlayer
 
-  def initialize(answerer)
-    @answerer = answerer
+  def initialize(currentPlayer)
+    @currentPlayer = currentPlayer
   end
+
 end

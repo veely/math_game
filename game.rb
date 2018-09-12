@@ -1,28 +1,3 @@
-require './turn_manager.rb'
-
-class Player
-
-  attr_reader :name, :lives
-  MAX_LIVES = 3
-  def initialize(name)
-    @name = name
-    @lives = MAX_LIVES
-  end
-
-  def lose_life
-    @lives -= 1
-  end
-
-  def dead?
-    @lives <= 0
-  end
-
-  def summary
-    "#{@name} Life Count: #{@lives}"
-  end
-
-end
-
 class Game
 
   def initialize()
@@ -48,11 +23,14 @@ class Game
     """
   end
 
+  def find_winner
+    players.select { |p| !p.dead? }.first
+  end
+
   def run
-    playerList = players.dup
     while !game_over?
       puts summary
-      currentPlayer = playerList.first
+      currentPlayer = @turn_manager.next_turn.currentPlayer
       firstNum = rand(1..20)
       secondNum = rand(1..20)
       answer = firstNum + secondNum
@@ -64,17 +42,10 @@ class Game
         puts "#{currentPlayer.name} answered incorrectly!"
         currentPlayer.lose_life
       end
-      playerList.rotate!
+      sleep(1)
     end
-    winner = nil
-    playerList.each { |p|
-      if p.dead? == false
-        winner = p
-      end
-    }
+    winner = find_winner
     puts "The winner is #{winner.name}!"
   end
-end
 
-game = Game.new
-game.run
+end
